@@ -37,11 +37,9 @@ public class FirstRunSetupScreen extends Screen {
                         messageTimer = 60;
                         return;
                     }
-                    // 保存配置
                     ModConfig.COMMON.exportPath.set(path);
                     ModConfig.COMMON.firstRun.set(false);
                     ModConfig.COMMON_SPEC.save();
-                    // 关闭界面，进入游戏主菜单
                     Minecraft.getInstance().setScreen(null);
                 })
                 .bounds(centerX - 160, centerY + 20, 150, 20)

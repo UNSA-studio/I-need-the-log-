@@ -83,6 +83,13 @@ public class FileSaveScreen extends Screen {
     }
 
     private boolean isChineseLanguage() {
-        return System.getProperty("user.language", "en").startsWith("zh");
+        try {
+            // 使用游戏语言管理器（避免编译错误，用反射或直接判断语言代码）
+            String lang = Minecraft.getInstance().getLanguageManager().getSelected().getLanguage();
+            return lang.startsWith("zh");
+        } catch (Exception e) {
+            // 回退到系统语言
+            return System.getProperty("user.language", "en").startsWith("zh");
+        }
     }
 }
