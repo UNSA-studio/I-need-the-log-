@@ -14,7 +14,7 @@ public class FirstRunSetupScreen extends Screen {
     private int messageTimer = 0;
 
     public FirstRunSetupScreen() {
-        super(Component.literal("I need the log! - First Run Setup"));
+        super(Component.literal("首次运行设置 - 我需要日志！"));
     }
 
     @Override
@@ -23,17 +23,17 @@ public class FirstRunSetupScreen extends Screen {
         int centerY = this.height / 2;
 
         this.pathField = new EditBox(this.font, centerX - 150, centerY - 40, 300, 20,
-                Component.literal("Export path (relative to game dir or absolute)"));
+                Component.literal("导出路径（相对游戏目录或绝对路径）"));
         this.pathField.setMaxLength(256);
         this.pathField.setValue(ModConfig.COMMON.exportPath.get());
         this.addRenderableWidget(this.pathField);
 
         Button saveButton = Button.builder(
-                Component.literal("Save and continue"),
+                Component.literal("保存并继续"),
                 button -> {
                     String path = this.pathField.getValue().trim();
                     if (path.isEmpty()) {
-                        message = "Path cannot be empty!";
+                        message = "路径不能为空！";
                         messageTimer = 60;
                         return;
                     }
@@ -47,7 +47,7 @@ public class FirstRunSetupScreen extends Screen {
         this.addRenderableWidget(saveButton);
 
         Button exitButton = Button.builder(
-                Component.literal("Exit game"),
+                Component.literal("退出游戏"),
                 button -> Minecraft.getInstance().stop())
                 .bounds(centerX + 10, centerY + 20, 150, 20)
                 .build();
@@ -58,9 +58,9 @@ public class FirstRunSetupScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
         int centerX = this.width / 2;
-        guiGraphics.drawCenteredString(this.font, "Welcome! Choose where to save exported logs",
+        guiGraphics.drawCenteredString(this.font, "欢迎使用“我需要日志！”模组！",
                 centerX, this.height / 2 - 80, 0xFFFFFF);
-        guiGraphics.drawCenteredString(this.font, "Path will be saved and can be changed later in mod settings",
+        guiGraphics.drawCenteredString(this.font, "请设置日志导出位置（可随时在配置中修改）",
                 centerX, this.height / 2 - 60, 0xAAAAAA);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         if (messageTimer > 0) {

@@ -9,22 +9,29 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Mod(Ineedthelog.MOD_ID)
 public class Ineedthelog {
     public static final String MOD_ID = "i_need_the_log";
+    private static final Logger LOGGER = LoggerFactory.getLogger(Ineedthelog.class);
 
     public Ineedthelog(ModContainer container, IEventBus modBus) {
         ModConfig.register(container);
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modBus.addListener(this::clientSetup);
         }
+        LOGGER.info("I need the log! mod loaded.");
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            LOGGER.info("Client setup: firstRun = {}", ModConfig.COMMON.firstRun.get());
             if (ModConfig.COMMON.firstRun.get()) {
-                Minecraft.getInstance().setScreen(new FirstRunSetupScreen());
+                Minecraft.getInstance().execute(() -> {
+                    Minecraft.getInstance().setScreen(new FirstRunSetupScreen());
+                });
             }
         });
     }

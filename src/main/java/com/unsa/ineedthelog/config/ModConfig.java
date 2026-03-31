@@ -11,12 +11,12 @@ public class ModConfig {
         public final ModConfigSpec.ConfigValue<Boolean> firstRun;
 
         Common(ModConfigSpec.Builder builder) {
-            builder.comment("General settings").push("general");
+            builder.comment("通用设置").push("general");
             exportPath = builder
-                    .comment("Directory or file path where logs will be exported (relative to game dir or absolute)")
+                    .comment("日志导出路径（相对游戏目录或绝对路径）")
                     .define("exportPath", "ERROR-LOG/error.txt");
             firstRun = builder
-                    .comment("Whether it's the first run (shows setup screen)")
+                    .comment("是否首次运行（显示设置界面）")
                     .define("firstRun", true);
             builder.pop();
         }
