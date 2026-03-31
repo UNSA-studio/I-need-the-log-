@@ -21,7 +21,7 @@ public class FileSaveScreen extends Screen {
     private int feedbackTimer = 0;
 
     public FileSaveScreen(Screen parent) {
-        super(Component.literal("保存日志文件"));
+        super(Component.translatable("i_need_the_log.save_screen.title"));
         this.parent = parent;
     }
 
@@ -29,32 +29,27 @@ public class FileSaveScreen extends Screen {
     protected void init() {
         String defaultPath = ModConfig.COMMON.exportPath.get();
         this.pathField = new EditBox(this.font, this.width / 2 - 100, this.height / 2 - 20, 200, 20,
-                Component.literal("文件路径（目录或完整文件路径）"));
+                Component.translatable("i_need_the_log.save_screen.path_hint"));
         this.pathField.setMaxLength(256);
         this.pathField.setValue(defaultPath);
         this.addRenderableWidget(this.pathField);
 
         Button saveButton = Button.builder(
-                Component.literal("保存"),
+                Component.translatable("i_need_the_log.save_screen.save"),
                 button -> {
                     String userPath = this.pathField.getValue().trim();
                     if (userPath.isEmpty()) {
-                        feedbackMessage = "路径不能为空！";
+                        feedbackMessage = Component.translatable("i_need_the_log.first_run.error_empty").getString();
                         feedbackTimer = 80;
                         return;
                     }
 
-                    // 确定最终导出路径
                     String finalPath = userPath;
-                    // 如果用户输入不是以 .log 或 .txt 结尾，视为目录，自动生成时间戳文件名
                     if (!userPath.endsWith(".log") && !userPath.endsWith(".txt")) {
-                        // 生成时间戳文件名: YYYY.MM.DD_HH:mm-ERROR-LOG.txt
                         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd_HH:mm"));
                         String fileName = timestamp + "-ERROR-LOG.txt";
-                        // 确保路径以分隔符结尾
                         Path dir = Paths.get(userPath);
                         if (!userPath.endsWith("/") && !userPath.endsWith("\\")) {
-                            // 简单处理，确保目录分隔符正确，这里不做复杂处理，交给 Paths
                             dir = dir.resolve(fileName);
                         } else {
                             dir = dir.resolve(fileName);
@@ -64,13 +59,12 @@ public class FileSaveScreen extends Screen {
 
                     boolean success = LogExporter.exportLogToFile(finalPath);
                     if (success) {
-                        feedbackMessage = "日志已保存至 " + finalPath;
+                        feedbackMessage = Component.translatable("i_need_the_log.save_screen.success", finalPath).getString();
                     } else {
-                        feedbackMessage = "保存失败，请检查路径";
+                        feedbackMessage = Component.translatable("i_need_the_log.save_screen.failure").getString();
                     }
                     feedbackTimer = 80;
 
-                    // 保存用户输入的原始路径到配置（下次默认显示）
                     ModConfig.COMMON.exportPath.set(userPath);
                     ModConfig.COMMON_SPEC.save();
                 })
@@ -79,7 +73,7 @@ public class FileSaveScreen extends Screen {
         this.addRenderableWidget(saveButton);
 
         Button backButton = Button.builder(
-                Component.literal("返回"),
+                Component.translatable("i_need_the_log.save_screen.back"),
                 button -> this.onClose())
                 .bounds(this.width / 2 - 50, this.height / 2 + 50, 100, 20)
                 .build();
@@ -94,13 +88,13 @@ public class FileSaveScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.drawCenteredString(this.font, "请输入文件路径（绝对或相对游戏目录）",
+        guiGraphics.drawCenteredString(this.font, Component.translatable("i_need_the_log.save_screen.instruction"),
                 this.width / 2, this.height / 2 - 60, 0xFFFFFF);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.pathField.render(guiGraphics, mouseX, mouseY, partialTick);
 
         if (feedbackMessage != null && feedbackTimer > 0) {
-            int color = feedbackMessage.startsWith("日志已保存") ? 0x00FF00 : 0xFF5555;
+            int color = feedbackMessage.startsWith(Component.translatable("i_need_the_log.save_screen.success").getString().substring(0, 4)) ? 0x00FF00 : 0xFF5555;
             guiGraphics.drawCenteredString(this.font, feedbackMessage,
                     this.width / 2, this.height / 2 + 80, color);
             feedbackTimer--;
