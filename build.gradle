@@ -190,3 +190,11 @@ idea {
         downloadJavadoc = true
     }
 }
+
+jar {
+    manifest {
+        attributes([
+            "MixinConfigs": "mixins.i_need_the_log.json"
+        ])
+    }
+}
