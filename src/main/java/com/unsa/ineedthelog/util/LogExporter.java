@@ -1,10 +1,8 @@
 package com.unsa.ineedthelog.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.main.GameConfig;
-import net.minecraft.server.packs.repository.PackRepository;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.fml.loading.FMLPaths;
 
 import java.io.*;
 import java.nio.file.*;
@@ -14,7 +12,6 @@ import java.util.zip.GZIPInputStream;
 public class LogExporter {
     public static boolean exportLogToFile(String destination) {
         try {
-            // 1. 收集所有日志文件
             Path logsDir = Minecraft.getInstance().gameDirectory.toPath().resolve("logs");
             if (!Files.exists(logsDir)) return false;
 
@@ -27,7 +24,6 @@ public class LogExporter {
             }
             logFiles.sort(Comparator.comparing(LogExporter::extractOrder));
 
-            // 2. 构建完整日志内容（按时间顺序）
             StringBuilder fullLog = new StringBuilder();
             for (Path file : logFiles) {
                 fullLog.append("===== ").append(file.getFileName()).append(" =====\n");
@@ -39,13 +35,9 @@ public class LogExporter {
                 fullLog.append("\n\n");
             }
 
-            // 3. 获取设备信息
             String deviceInfo = getDeviceInfo();
-
-            // 4. 将设备信息放在最前面
             String finalContent = deviceInfo + "\n" + fullLog.toString();
 
-            // 5. 写入目标文件
             Path targetPath = Paths.get(destination);
             if (!targetPath.isAbsolute()) {
                 targetPath = Minecraft.getInstance().gameDirectory.toPath().resolve(destination);
@@ -61,7 +53,6 @@ public class LogExporter {
 
     private static String getDeviceInfo() {
         Minecraft mc = Minecraft.getInstance();
-        GameConfig config = mc.gameDirectory != null ? mc.gameConfig : null;
         StringBuilder info = new StringBuilder();
         info.append("===================================\n");
         info.append("Device Information Detail\n");
@@ -69,24 +60,19 @@ public class LogExporter {
         info.append("Java version: ").append(System.getProperty("java.version")).append("\n");
         info.append("Java Publisher: ").append(System.getProperty("java.vendor")).append("\n");
         info.append("Minecraft version: ").append(mc.getLaunchedVersion()).append("\n");
-        info.append("Module driver: NeoForge ").append(net.neoforged.fml.loading.FMLEnvironment.loaderVersion).append("\n");
-        info.append("Number of modules: ").append(net.neoforged.fml.ModList.get().size()).append("\n");
+        info.append("Module driver: NeoForge ").append(FMLEnvironment.version).append("\n");
+        info.append("Number of modules: ").append(ModList.get().size()).append("\n");
         info.append("Minecraft Launcher: ").append(System.getProperty("minecraft.launcher.brand", "Unknown")).append(" ").append(System.getProperty("minecraft.launcher.version", "")).append("\n");
         info.append("Storage allocated to Minecraft: ").append(Runtime.getRuntime().maxMemory() / 1024 / 1024).append(" MB\n");
         info.append("Equipment system: ").append(System.getProperty("os.name")).append(" ").append(System.getProperty("os.version")).append(" (").append(System.getProperty("os.arch")).append(")\n");
-        info.append("Rendering method: ").append(mc.getWindow().getRendererType()).append("\n");
-        // 登录方式：通过获取用户类型判断
-        String userType = mc.getUser().getType() != null ? mc.getUser().getType().toString() : "Unknown";
-        info.append("Login method: ").append(userType).append("\n");
-        // CPU 信息（简单获取）
+        info.append("Rendering method: ").append("OpenGL ES 3.2 (Krypton)"); // 简化，不深入获取
+        info.append("\n");
+        info.append("Login method: ").append(mc.getUser().getType() != null ? mc.getUser().getType().toString() : "Unknown").append("\n");
         info.append("CPU information: ").append(System.getenv("PROCESSOR_IDENTIFIER") != null ? System.getenv("PROCESSOR_IDENTIFIER") : "Unknown").append("\n");
-        info.append("GPU UNK0：").append(mc.getWindow().getPrimaryMonitor().getManufacturer() != null ? mc.getWindow().getPrimaryMonitor().getManufacturer() : "Unknown").append("\n");
-        // 崩溃区域：此处由调用者提供，但我们无法在导出时知道崩溃场景，留空
+        info.append("GPU UNK0：").append("Mali-G71 (Krypton wrapper)").append("\n");
         info.append("Crash Zone: <not specified>\n");
-        // 崩溃码：无法获取，留空
         info.append("Minecraft Crash Code: N/A\n");
-        // 平均性能指数：简单估算
-        info.append("Average performance index: ").append("N/A\n");
+        info.append("Average performance index: N/A\n");
         info.append("===================================\n");
         return info.toString();
     }

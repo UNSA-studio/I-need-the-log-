@@ -29,9 +29,9 @@ public class FileSaveScreen extends Screen {
         this.pathField.setValue(defaultPath);
         this.addRenderableWidget(this.pathField);
 
-        // 根据游戏语言选择按钮文字
-        String saveText = isChinese() ? "保存" : "Save";
-        String backText = isChinese() ? "返回" : "Back";
+        boolean isChinese = Minecraft.getInstance().getLanguageManager().getSelected().getCode().startsWith("zh");
+        String saveText = isChinese ? "保存" : "Save";
+        String backText = isChinese ? "返回" : "Back";
 
         Button saveButton = Button.builder(
                 Component.literal(saveText),
@@ -39,9 +39,9 @@ public class FileSaveScreen extends Screen {
                     String path = this.pathField.getValue();
                     boolean success = LogExporter.exportLogToFile(path);
                     if (success) {
-                        feedbackMessage = isChinese() ? "日志已保存至 " + path : "Log saved to " + path;
+                        feedbackMessage = isChinese ? "日志已保存至 " + path : "Log saved to " + path;
                     } else {
-                        feedbackMessage = isChinese() ? "保存失败，请检查路径" : "Failed to save, check path";
+                        feedbackMessage = isChinese ? "保存失败，请检查路径" : "Failed to save, check path";
                     }
                     feedbackTimer = 80;
                 })
@@ -65,7 +65,8 @@ public class FileSaveScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
-        String instruction = isChinese() ? "请输入文件路径（绝对或相对游戏目录）" :
+        boolean isChinese = Minecraft.getInstance().getLanguageManager().getSelected().getCode().startsWith("zh");
+        String instruction = isChinese ? "请输入文件路径（绝对或相对游戏目录）" :
                 "Enter file path (absolute or relative to game dir)";
         guiGraphics.drawCenteredString(this.font, instruction,
                 this.width / 2, this.height / 2 - 60, 0xFFFFFF);
@@ -73,15 +74,11 @@ public class FileSaveScreen extends Screen {
         this.pathField.render(guiGraphics, mouseX, mouseY, partialTick);
 
         if (feedbackMessage != null && feedbackTimer > 0) {
-            int color = feedbackMessage.startsWith(isChinese() ? "日志已保存" : "Log saved") ? 0x00FF00 : 0xFF5555;
+            int color = feedbackMessage.startsWith(isChinese ? "日志已保存" : "Log saved") ? 0x00FF00 : 0xFF5555;
             guiGraphics.drawCenteredString(this.font, feedbackMessage,
                     this.width / 2, this.height / 2 + 80, color);
             feedbackTimer--;
             if (feedbackTimer <= 0) feedbackMessage = null;
         }
-    }
-
-    private boolean isChinese() {
-        return Minecraft.getInstance().getLanguageManager().getSelected().getCode().startsWith("zh");
     }
 }
