@@ -118,6 +118,7 @@ configurations {
 }
 
 dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
@@ -197,8 +198,4 @@ jar {
             "MixinConfigs": "mixins.i_need_the_log.json"
         ])
     }
-}
-
-configurations {
-    compileClasspath.extendsFrom(neoForge)
 }
