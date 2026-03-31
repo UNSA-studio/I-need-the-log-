@@ -29,6 +29,7 @@ public class Ineedthelog {
         event.enqueueWork(() -> {
             LOGGER.info("Client setup: firstRun = {}", ModConfig.COMMON.firstRun.get());
             if (ModConfig.COMMON.firstRun.get()) {
+                LOGGER.info("Showing first run setup screen");
                 Minecraft.getInstance().execute(() -> {
                     Minecraft.getInstance().setScreen(new FirstRunSetupScreen());
                 });

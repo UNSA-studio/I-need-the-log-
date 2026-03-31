@@ -28,7 +28,7 @@ public abstract class DisconnectedScreenMixin extends Screen {
         int exportY = cancelY - buttonHeight - 5;
 
         Button exportBtn = Button.builder(
-                Component.literal("Export ERROR.txt"),
+                Component.literal("导出 ERROR.txt"),
                 button -> Minecraft.getInstance().setScreen(new FileSaveScreen(this)))
                 .bounds(centerX - buttonWidth / 2, exportY, buttonWidth, buttonHeight)
                 .build();

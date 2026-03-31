@@ -14,7 +14,7 @@ public class ModConfig {
             builder.comment("通用设置").push("general");
             exportPath = builder
                     .comment("日志导出路径（相对游戏目录或绝对路径）")
-                    .define("exportPath", "ERROR-LOG/error.txt");
+                    .define("exportPath", "ERROR-LOG/");
             firstRun = builder
                     .comment("是否首次运行（显示设置界面）")
                     .define("firstRun", true);
