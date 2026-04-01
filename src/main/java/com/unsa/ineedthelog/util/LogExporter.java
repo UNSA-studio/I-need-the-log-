@@ -1,7 +1,6 @@
 package com.unsa.ineedthelog.util;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.language.LanguageManager;
 import net.neoforged.fml.ModList;
 
 import java.io.IOException;
@@ -34,25 +33,23 @@ public class LogExporter {
 
     private static String getDeviceInfo() {
         Minecraft mc = Minecraft.getInstance();
-        LanguageManager lm = mc.getLanguageManager();
-        boolean isChinese = lm.getSelected().getCode().startsWith("zh");
         StringBuilder info = new StringBuilder();
         info.append("===================================\n");
-        info.append(isChinese ? "设备信息（本次会话）" : "Device Information (Session Start)").append("\n");
+        info.append("Device Information (Session Start)\n");
         info.append("===================================\n");
-        info.append(isChinese ? "Java版本: " : "Java version: ").append(System.getProperty("java.version")).append("\n");
-        info.append(isChinese ? "Java发行商: " : "Java Publisher: ").append(System.getProperty("java.vendor")).append("\n");
-        info.append(isChinese ? "Minecraft版本: " : "Minecraft version: ").append(mc.getLaunchedVersion()).append("\n");
+        info.append("Java version: ").append(System.getProperty("java.version")).append("\n");
+        info.append("Java Publisher: ").append(System.getProperty("java.vendor")).append("\n");
+        info.append("Minecraft version: ").append(mc.getLaunchedVersion()).append("\n");
         String neoVersion = ModList.get().getModContainerById("neoforge")
                 .map(container -> container.getModInfo().getVersion().toString())
                 .orElse("Unknown");
-        info.append(isChinese ? "NeoForge版本: " : "NeoForge version: ").append(neoVersion).append("\n");
-        info.append(isChinese ? "加载的模组数量: " : "Mods loaded: ").append(ModList.get().size()).append("\n");
-        info.append(isChinese ? "启动器: " : "Launcher: ").append(System.getProperty("minecraft.launcher.brand", "Unknown")).append(" ").append(System.getProperty("minecraft.launcher.version", "")).append("\n");
-        info.append(isChinese ? "分配内存: " : "Memory allocated: ").append(Runtime.getRuntime().maxMemory() / 1024 / 1024).append(" MB\n");
-        info.append(isChinese ? "操作系统: " : "OS: ").append(System.getProperty("os.name")).append(" ").append(System.getProperty("os.version")).append(" (").append(System.getProperty("os.arch")).append(")\n");
-        info.append(isChinese ? "渲染方式: " : "Rendering: ").append("OpenGL ES 3.2 (Krypton)").append("\n");
-        info.append(isChinese ? "登录方式: " : "Login type: ").append(mc.getUser().getType() != null ? mc.getUser().getType().toString() : "Unknown").append("\n");
+        info.append("NeoForge version: ").append(neoVersion).append("\n");
+        info.append("Mods loaded: ").append(ModList.get().size()).append("\n");
+        info.append("Launcher: ").append(System.getProperty("minecraft.launcher.brand", "Unknown")).append(" ").append(System.getProperty("minecraft.launcher.version", "")).append("\n");
+        info.append("Memory allocated: ").append(Runtime.getRuntime().maxMemory() / 1024 / 1024).append(" MB\n");
+        info.append("OS: ").append(System.getProperty("os.name")).append(" ").append(System.getProperty("os.version")).append(" (").append(System.getProperty("os.arch")).append(")\n");
+        info.append("Rendering: OpenGL ES 3.2 (Krypton)\n");
+        info.append("Login type: ").append(mc.getUser().getType() != null ? mc.getUser().getType().toString() : "Unknown").append("\n");
         info.append("===================================\n");
         return info.toString();
     }
