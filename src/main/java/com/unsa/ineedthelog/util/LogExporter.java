@@ -35,7 +35,7 @@ public class LogExporter {
     private static String getDeviceInfo() {
         Minecraft mc = Minecraft.getInstance();
         LanguageManager lm = mc.getLanguageManager();
-        boolean isChinese = lm.getSelected().getLanguage().startsWith("zh");
+        boolean isChinese = lm.getSelected().getCode().startsWith("zh");
         StringBuilder info = new StringBuilder();
         info.append("===================================\n");
         info.append(isChinese ? "设备信息（本次会话）" : "Device Information (Session Start)").append("\n");
