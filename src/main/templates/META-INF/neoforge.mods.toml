@@ -13,7 +13,7 @@ ${mod_description}
 [[dependencies.${mod_id}]]
     modId="neoforge"
     mandatory=true
-    versionRange="[${neo_version},)"
+    versionRange="[21.1.215,)"
     ordering="NONE"
     side="BOTH"
 
