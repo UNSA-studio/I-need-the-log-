@@ -9,10 +9,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class LogExporter {
-    public static boolean exportLogToFile(String destination) {
+    /**
+     * 导出日志到指定路径
+     * @param destination 目标路径（文件或目录）
+     * @return 错误代码：0表示成功，非0表示错误，详见错误代码表
+     */
+    public static int exportLogToFile(String destination) {
         try {
             Path logFile = Minecraft.getInstance().gameDirectory.toPath().resolve("logs/latest.log");
-            if (!Files.exists(logFile)) return false;
+            if (!Files.exists(logFile)) return 1; // 001
 
             String logContent = Files.readString(logFile);
             String deviceInfo = getDeviceInfo();
@@ -22,12 +27,25 @@ public class LogExporter {
             if (!targetPath.isAbsolute()) {
                 targetPath = Minecraft.getInstance().gameDirectory.toPath().resolve(destination);
             }
-            Files.createDirectories(targetPath.getParent());
+            // 创建父目录
+            Path parent = targetPath.getParent();
+            if (parent != null && !Files.exists(parent)) {
+                try {
+                    Files.createDirectories(parent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return 3; // 003
+                }
+            }
             Files.writeString(targetPath, finalContent);
-            return true;
+            return 0; // 成功
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            // 判断读取还是写入错误
+            if (e.getMessage() != null && e.getMessage().contains("latest.log")) {
+                return 2; // 002
+            }
+            return 9; // 999
         }
     }
 

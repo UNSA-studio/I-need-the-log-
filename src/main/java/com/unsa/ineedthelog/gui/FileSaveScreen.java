@@ -57,11 +57,17 @@ public class FileSaveScreen extends Screen {
                         finalPath = dir.toString();
                     }
 
-                    boolean success = LogExporter.exportLogToFile(finalPath);
-                    if (success) {
+                    int errorCode = LogExporter.exportLogToFile(finalPath);
+                    if (errorCode == 0) {
                         feedbackMessage = Component.translatable("i_need_the_log.save_screen.success", finalPath).getString();
                     } else {
-                        feedbackMessage = Component.translatable("i_need_the_log.save_screen.failure").getString();
+                        // 错误代码映射
+                        String errorKey = "i_need_the_log.save_screen.error." + errorCode;
+                        feedbackMessage = Component.translatable(errorKey, errorCode).getString();
+                        // 如果翻译键不存在，回退到通用错误
+                        if (feedbackMessage.equals(errorKey)) {
+                            feedbackMessage = Component.translatable("i_need_the_log.save_screen.error.generic", errorCode).getString();
+                        }
                     }
                     feedbackTimer = 80;
 
@@ -94,7 +100,7 @@ public class FileSaveScreen extends Screen {
         this.pathField.render(guiGraphics, mouseX, mouseY, partialTick);
 
         if (feedbackMessage != null && feedbackTimer > 0) {
-            int color = feedbackMessage.startsWith(Component.translatable("i_need_the_log.save_screen.success").getString().substring(0, 4)) ? 0x00FF00 : 0xFF5555;
+            int color = feedbackMessage.contains(Component.translatable("i_need_the_log.save_screen.success").getString().substring(0, 4)) ? 0x00FF00 : 0xFF5555;
             guiGraphics.drawCenteredString(this.font, feedbackMessage,
                     this.width / 2, this.height / 2 + 80, color);
             feedbackTimer--;

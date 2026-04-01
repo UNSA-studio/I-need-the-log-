@@ -12,6 +12,11 @@
   "i_need_the_log.save_screen.save": "保存",
   "i_need_the_log.save_screen.back": "返回",
   "i_need_the_log.save_screen.success": "日志已保存至 %s",
-  "i_need_the_log.save_screen.failure": "保存失败，请检查路径",
+  "i_need_the_log.save_screen.error.1": "错误 001：日志文件不存在",
+  "i_need_the_log.save_screen.error.2": "错误 002：无法读取日志文件",
+  "i_need_the_log.save_screen.error.3": "错误 003：无法创建目录（权限不足）",
+  "i_need_the_log.save_screen.error.4": "错误 004：无法写入文件",
+  "i_need_the_log.save_screen.error.9": "错误 999：未知错误",
+  "i_need_the_log.save_screen.error.generic": "错误 %d：导出失败",
   "i_need_the_log.export_button": "导出 ERROR.txt"
 }

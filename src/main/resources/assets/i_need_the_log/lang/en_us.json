@@ -12,6 +12,11 @@
   "i_need_the_log.save_screen.save": "Save",
   "i_need_the_log.save_screen.back": "Back",
   "i_need_the_log.save_screen.success": "Log saved to %s",
-  "i_need_the_log.save_screen.failure": "Failed to save, check path",
+  "i_need_the_log.save_screen.error.1": "Error 001: Log file not found",
+  "i_need_the_log.save_screen.error.2": "Error 002: Cannot read log file",
+  "i_need_the_log.save_screen.error.3": "Error 003: Cannot create directory (permission denied)",
+  "i_need_the_log.save_screen.error.4": "Error 004: Cannot write to file",
+  "i_need_the_log.save_screen.error.9": "Error 999: Unknown error",
+  "i_need_the_log.save_screen.error.generic": "Error %d: Export failed",
   "i_need_the_log.export_button": "Export ERROR.txt"
 }
