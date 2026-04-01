@@ -13,16 +13,5 @@
   "i_need_the_log.save_screen.back": "Back",
   "i_need_the_log.save_screen.success": "Log saved to %s",
   "i_need_the_log.save_screen.failure": "Failed to save, check path",
-  "i_need_the_log.export_button": "Export ERROR.txt",
-  "i_need_the_log.device_info.header": "Device Information (Session Start)",
-  "i_need_the_log.device_info.java_version": "Java version",
-  "i_need_the_log.device_info.java_publisher": "Java Publisher",
-  "i_need_the_log.device_info.minecraft_version": "Minecraft version",
-  "i_need_the_log.device_info.neoforge_version": "NeoForge version",
-  "i_need_the_log.device_info.mods_loaded": "Mods loaded",
-  "i_need_the_log.device_info.launcher": "Launcher",
-  "i_need_the_log.device_info.memory": "Memory allocated",
-  "i_need_the_log.device_info.os": "OS",
-  "i_need_the_log.device_info.rendering": "Rendering",
-  "i_need_the_log.device_info.login_type": "Login type"
+  "i_need_the_log.export_button": "Export ERROR.txt"
 }
