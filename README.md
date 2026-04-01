@@ -7,6 +7,9 @@
 ## Features
 This mod allows you to easily export the full game log (from startup to the current moment) when encountering unknown errors or unexpected disconnections without a full crash. Convenient and fast for analysis!
 
+## Privacy Notice
+- This mod does not collect any of your important private information. The exported log only contains some performance information about your device. If you do not wish to share this, you can manually delete the entire section named "Device information" from the exported log.
+
 ## A Word of Caution
 - It is recommended not to try it lightly!
 - For some reason, the AI would always reliably throw errors on the Mixin class—quite hopeless. Eventually, I had to force the AI to change to another approach, something like using a string instead; and as soon as it was replaced, it worked. So frustrating (  
