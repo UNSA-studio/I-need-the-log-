@@ -2,24 +2,26 @@ modLoader="javafml"
 loaderVersion="[21.1,)"
 
 [[mods]]
-modId="${mod_id}"
-version="${mod_version}"
-displayName="${mod_name}"
+modId="i_need_the_log"
+version="1.0.0"
+displayName="I need the log!"
 logoFile="logo.png"
 description='''
-${mod_description}
+This mod allows you to easily export the full game log (from startup to the current moment) when encountering unknown errors or unexpected disconnections without a full crash. Convenient and fast for analysis!
 '''
 
-[[dependencies.${mod_id}]]
+license="MIT"
+
+[[dependencies.i_need_the_log]]
     modId="neoforge"
     mandatory=true
     versionRange="[21.1.215,)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.${mod_id}]]
+[[dependencies.i_need_the_log]]
     modId="minecraft"
     mandatory=true
-    versionRange="${minecraft_version_range}"
+    versionRange="[1.21.1]"
     ordering="NONE"
     side="BOTH"
